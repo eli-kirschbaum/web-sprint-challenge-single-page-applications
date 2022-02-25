@@ -24,13 +24,8 @@ export default function PizzaForm (props) {
     
     return (
         <div id='pizza-form' onSubmit={onSubmit}>
-            <button disabled={disabled}>submit</button>
-            <div className='errors'>
-                <div>{errors.name}</div>
-                <div>{errors.size}</div>
-                <div>{errors.topping1}</div>
-                <div>{errors.special}</div>
-            </div>
+            <button id='order-button' disabled={disabled}>submit</button>
+            
             
             <label>Name
                 <input
@@ -62,7 +57,7 @@ export default function PizzaForm (props) {
                     <input
                         type='checkbox'
                         name='pepperoni'
-                        checked={values.pepperoni}
+                        checked={values.topping1}
                         onChange={onChange}
                     />
                 </label>
@@ -70,7 +65,7 @@ export default function PizzaForm (props) {
                     <input
                         type='checkbox'
                         name='sausage'
-                        checked={values.sausage}
+                        checked={values.topping2}
                         onChange={onChange}
                     />
                 </label>
@@ -78,7 +73,7 @@ export default function PizzaForm (props) {
                     <input
                         type='checkbox'
                         name='mushrooms'
-                        checked={values.mushrooms}
+                        checked={values.topping3}
                         onChange={onChange}
                     />
                 </label>
@@ -86,8 +81,19 @@ export default function PizzaForm (props) {
                     <input
                         type='checkbox'
                         name='olives'
-                        checked={values.olives}
+                        checked={values.topping4}
                         onChange={onChange}
+                    />
+                </label>
+            </div>
+            <div className='special-container'>
+                <label>Special Instructions
+                    <input
+                        id='special-text'
+                        value={values.special}
+                        onChange={onChange}
+                        name='special'
+                        type='text'
                     />
                 </label>
             </div>
