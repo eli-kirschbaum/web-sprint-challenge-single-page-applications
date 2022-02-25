@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function PizzaForm (props) {
+    const [form, setForm] = useState({
+        name: '',
+        accepted: false
+    })
+    
+    
     
     const {
         values,
@@ -16,16 +22,17 @@ export default function PizzaForm (props) {
     }
 
     const onChange = evt => {
-        const { name, value, type, checked } = evt.target
-        const valueToUse = evt.target.type === 'checkbox' ? checked : value;
-        change(name, value)
+        const val = evt.target.type === 'checkbox'? evt.target.checked : evt.target.value
+        setForm({...form, [evt.target.name]:val})
     }
     
     
     return (
-        <div id='pizza-form' onSubmit={onSubmit}>
-            <button id='order-button' disabled={disabled}>submit</button>
+        <div onSubmit={onSubmit}>
+        <form id='pizza-form'>
+              
             
+            <button id='order-button' disabled={disabled}>submit</button>
             
             <label>Name
                 <input
@@ -56,33 +63,37 @@ export default function PizzaForm (props) {
                 <label>Pepperoni
                     <input
                         type='checkbox'
-                        name='pepperoni'
+                        name='accepted'
                         checked={values.topping1}
                         onChange={onChange}
+                        value={values.accepted}
                     />
                 </label>
                 <label>Sausage
                     <input
                         type='checkbox'
-                        name='sausage'
+                        name='accepted'
                         checked={values.topping2}
                         onChange={onChange}
+                        value={values.accepted}
                     />
                 </label>
                 <label>Mushrooms
                     <input
                         type='checkbox'
-                        name='mushrooms'
+                        name='accepted'
                         checked={values.topping3}
                         onChange={onChange}
+                        value={values.accepted}
                     />
                 </label>
                 <label>Olives
                     <input
                         type='checkbox'
-                        name='olives'
+                        name='accepted'
                         checked={values.topping4}
                         onChange={onChange}
+                        value={values.accepted}
                     />
                 </label>
             </div>
@@ -97,6 +108,7 @@ export default function PizzaForm (props) {
                     />
                 </label>
             </div>
+        </form>
             
         </div>
     )
