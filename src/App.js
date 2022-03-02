@@ -3,20 +3,23 @@ import React, { useState } from "react";
 import { Route, Link, Switch } from 'react-router-dom'
 import PizzaForm from './PizzaForm'
 import formSchema from './formSchema'
+import * as yup from 'yup'
+import { findAllByPlaceholderText } from "@testing-library/react";
 
 const initialFormValues = {
   name: '',
   size: '',
-  topping1: '',
-  topping2: '',
-  topping3: '',
-  topping4: '',
+  pepperoni: false,
+  sausage: false,
+  mushrooms: false,
+  olives: false,
   special: ''
 }
 
 const initialFormErrors = {
   name: ''
 }
+
 
 const initialPizza = []
 const initialDisabled = true
@@ -34,7 +37,7 @@ const App = () => {
     setFormValues({...formValues, [inputName]: inputValue});
   }
   
-  const getFriends = () => {
+  const getPizza = () => {
     axios.get('https://reqres.in/api/orders')
       .then(resp => {
         setPizza(resp.data)
@@ -51,36 +54,37 @@ const App = () => {
       .catch(err => console.error(err))
   }
 
-  //const validate = (name,value) => {
-  //  yup.reach(formSchema, name)
-  //    .validate(value)
-  //    .then() => setFormErrors({...formErrors, [name]: ''})
-  //    .catch(err => setFormErrors({ ...formErrors, [name]: err.errors})
-  //}
+  
 
   const submitForm = () => {
     const newPizza = {
       name: formValues.name.trim(),
       size: formValues.size,
-      topping1: formValues.topping1,
-      topping2: formValues.topping2,
-      topping3: formValues.topping3,
-      topping4: formValues.topping4,
+      pepperoni: formValues.pepperoni,
+      sausage: formValues.sausage,
+      mushrooms: formValues.mushrooms,
+      olives: formValues.olives,
       special: formValues.special.trim()
     }
+    
     postNewPizza(newPizza)
   }
 
-
+  const validate = (name,value) => {
+    yup.reach(formSchema, name)
+      .validate(value)
+        .then(() => setFormErrors({...formErrors, [name]: ''}))
+        .catch(err => setFormErrors({ ...formErrors, [name]: err.errors[0]}))
+   }
 
   const inputChange = (name, value) => {
+    validate(name,value);
     setFormValues({
       ...formValues,
       [name]: value
-    })
+    }) 
   }
-  
-  
+
   return (
     <div className='app-container'>
       <div className='order-pizza'>
